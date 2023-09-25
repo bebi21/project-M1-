@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      label {
+        width: 300px;
+        display: inline-block;
+      }
+      div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: burlywood;
+        font-size: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <form action="">
+        <h2>Register</h2>
+        <label for="">Username</label>
+        <input type="text" id="userName" /><br />
+        <label for="">Password</label>
+        <input type="password" id="password" /><br />
+        <button onclick="register(event)">Register</button>
+      </form>
+    </div>
+    <script>
+      let arrUser = JSON.parse(localStorage.getItem("users")) || [];
+      function register(e) {
+        e.preventDefault();
+        let userName = document.getElementById("userName");
+        let password = document.getElementById("password");
+        let user = {
+          cart: [],
+          userName: userName.value,
+          password: password.value,
+        };
+        let check = true;
+        for (let i = 0; i < arrUser.length; i++) {
+          if (arrUser[i].userName == userName.value) {
+            console.log("bi  trung");
+            check = false;
+            break;
+          }
+        }
+        if (check) {
+          arrUser.push(user);
+          localStorage.setItem("users", JSON.stringify(arrUser));
+          window.location.href = "login.html";
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      label {
+        width: 300px;
+        display: inline-block;
+      }
+      div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: burlywood;
+        font-size: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <form action="">
+        <h2>Login</h2>
+        <label for="">Username</label>
+        <input type="text" id="userName" /><br />
+        <label for="">Password</label>
+        <input type="password" id="password" /><br />
+        <button onclick="login(event)">Login</button>
+      </form>
+    </div>
+    <script>
+      function login(e) {
+        e.preventDefault();
+        let userName = document.getElementById("userName");
+        let password = document.getElementById("password");
+        let users = JSON.parse(localStorage.getItem("users"));
+        let check = false;
+        for (let i = 0; i < users.length; i++) {
+          if (
+            userName.value == users[i].userName &&
+            password.value == users[i].password
+          ) {
+            // đăng nhập  thành công lưu thông tin người dùng vào local
+            localStorage.setItem("currentUser", users[i].userName);
+
+            // chuyển trang
+            window.location.href = "index.html";
+          } else {
+            check = true;
+          }
+        }
+        if (check) {
+          console.log("ko co tai khoan");
+        }
+      }
+    </script>
+  </body>
+</html>
