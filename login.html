@@ -17,6 +17,11 @@
         background-color: burlywood;
         font-size: 30px;
       }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
     </style>
   </head>
   <body>
@@ -31,12 +36,16 @@
       </form>
     </div>
     <script>
+      let currentUser = localStorage.getItem("currentUser") || null;
+      if (currentUser !== null) {
+        window.location.href = "index.html";
+      }
       function login(e) {
         e.preventDefault();
         let userName = document.getElementById("userName");
         let password = document.getElementById("password");
         let users = JSON.parse(localStorage.getItem("users"));
-        let check = false;
+        // let check = false;
         for (let i = 0; i < users.length; i++) {
           if (
             userName.value == users[i].userName &&
@@ -44,16 +53,15 @@
           ) {
             // đăng nhập  thành công lưu thông tin người dùng vào local
             localStorage.setItem("currentUser", users[i].userName);
-
             // chuyển trang
             window.location.href = "index.html";
-          } else {
-            check = true;
+            return;
           }
+          // } else {
+          //   check = true;
+          // }
         }
-        if (check) {
-          console.log("ko co tai khoan");
-        }
+        console.log("ko co tai khoan");
       }
     </script>
   </body>
