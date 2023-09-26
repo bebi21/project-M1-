@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <script
+      src="https://kit.fontawesome.com/a1c6005be6.js"
+      crossorigin="anonymous"
+    ></script>
     <style>
       #listOrder {
         display: flex;
@@ -19,11 +23,27 @@
       #listOrder div img {
         max-width: 100%;
       }
+      .cart i {
+        font-size: 30px;
+        cursor: pointer;
+      }
+      .total-order {
+        width: 50px;
+        text-align: center;
+        height: 50px;
+        border: 1px solid red;
+        border-radius: 30%;
+      }
     </style>
   </head>
   <body>
+    <div class="cart">
+      <div class="total-order" id="total-order"></div>
+      <i class="fa-solid fa-cart-shopping" onclick="change()"></i>
+    </div>
     <div id="listOrder"></div>
-    <button>logout</button>
+
+    <button onclick="logout()">logout</button>
     <script src="./main.js"></script>
   </body>
 </html>

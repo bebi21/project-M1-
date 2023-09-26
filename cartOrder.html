@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      table,
+      tr,
+      th,
+      td {
+        border: 1px solid black;
+        text-align: center;
+      }
+      td img {
+        width: 50px;
+      }
+      div {
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+      }
+      table {
+        width: 70%;
+      }
+      caption {
+        font-size: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <table>
+        <caption>
+          List Order
+        </caption>
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>ảnh</th>
+            <th>Tên</th>
+            <th>Giá sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Giá Tổng</th>
+            <th>Xóa</th>
+          </tr>
+        </thead>
+        <tbody id="showOrder"></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5">tổng tiền</td>
+            <td colspan="2" id="totalOrder">10000</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <script>
+      // convert tien te
+      const VND = new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      });
+      // lấy giỏ hàng của người dùng đổ dữ liệu ra
+      function showOrder() {
+        let users = JSON.parse(localStorage.getItem("users"));
+        let currentUser = localStorage.getItem("currentUser");
+        let cartUser;
+        for (let i = 0; i < users.length; i++) {
+          if (users[i].userName == currentUser) {
+            cartUser = users[i].cart;
+            break;
+          }
+        }
+        let text = "";
+        let total = 0;
+        for (let j = 0; j < cartUser.length; j++) {
+          total += cartUser[j].quantity * cartUser[j].price;
+          text += `
+          <tr>
+            <td>${j + 1}</td>
+            <td><img src="${cartUser[j].img}" alt="" /></td>
+            <td>${cartUser[j].name}</td>
+            <td>${VND.format(cartUser[j].price)}</td>
+            <td>
+              <button onclick="calculate(${j},'-')">-</button>
+              <span>${cartUser[j].quantity}</span>
+              <button onclick="calculate(${j},'+')">+</button>
+            </td>
+            <td><span>${VND.format(
+              cartUser[j].quantity * cartUser[j].price
+            )}</span></td>
+            <td><button onclick="remove(${j})">xoa</button></td>
+          </tr>
+            `;
+        }
+        document.getElementById("showOrder").innerHTML = text;
+        document.getElementById("totalOrder").innerHTML = VND.format(total);
+      }
+      showOrder();
+      function calculate(index, check) {
+        let users = JSON.parse(localStorage.getItem("users"));
+        let currentUser = localStorage.getItem("currentUser");
+        let cartUser;
+        for (let i = 0; i < users.length; i++) {
+          if (users[i].userName == currentUser) {
+            cartUser = users[i].cart;
+            break;
+          }
+        }
+        if (check == "-") {
+          for (let j = 0; j < cartUser.length; j++) {
+            if (cartUser[j].id == cartUser[index].id) {
+              if (cartUser[j].quantity < 2) {
+                break;
+              }
+              cartUser[j].quantity -= 1;
+              break;
+            }
+          }
+        } else {
+          for (let j = 0; j < cartUser.length; j++) {
+            if (cartUser[j].id == cartUser[index].id) {
+              cartUser[j].quantity += 1;
+              break;
+            }
+          }
+        }
+        localStorage.setItem("users", JSON.stringify(users));
+        showOrder();
+      }
+      function remove(index) {
+        let users = JSON.parse(localStorage.getItem("users"));
+        let currentUser = localStorage.getItem("currentUser");
+        let cartUser;
+        for (let i = 0; i < users.length; i++) {
+          if (users[i].userName == currentUser) {
+            cartUser = users[i].cart;
+            break;
+          }
+        }
+        cartUser.splice(index, 1);
+
+        localStorage.setItem("users", JSON.stringify(users));
+        showOrder();
+      }
+    </script>
+  </body>
+</html>

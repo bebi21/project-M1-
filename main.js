@@ -1,7 +1,8 @@
 let listOrder = document.getElementById("listOrder");
 let currentUser = localStorage.getItem("currentUser");
-if (currentUser == null) {
-  window.location.href = "login.html";
+
+function logout() {
+  localStorage.removeItem("currentUser");
 }
 
 /* let listItem = [
@@ -90,13 +91,23 @@ b1 Lấy giỏ hàng
 
 dựa  vào curentUser lưu  trên  local 
 
-b2 lấy
+b2 lấy sản phẩm dựa vào id sản phẩm
+
+b3  kiểm tra xem sản phẩm có trong giỏ hàng hay không
+     +  có rồi tăng số lượng sản phẩm lên
+     +  chưa có thì cho  vào giỏ
+
+b4 
+
 
 
 */
 function buy(id) {
-  //  lấy tên người dùng trên  local
+  if (currentUser == null) {
+    window.location.href = "login.html";
+  }
 
+  //  lấy tên người dùng trên  local
   // product ở đây  là lưu  sản phẩm mà người dùng muốn mua căn cứ theo  ID của sản phẩm
   let product;
   // users ở đây là  danh  sách người dùng đã tạo  tải khoản thành công
@@ -120,6 +131,7 @@ function buy(id) {
         // nếu có thì tăng phần tử đó lên
         if (product.id == users[i].cart[j].id) {
           users[i].cart[j] = {
+            // clone lại  product
             ...product,
             quantity: ++users[i].cart[j].quantity,
           };
@@ -138,4 +150,28 @@ function buy(id) {
       }
     }
   }
+  resultOrder();
 }
+
+/* 
+  hướng làm hiện thị total- order
+
+  b1 lấy giỏ hàng của người đăng  nhập  ra dựa  vào currentUser
+
+  b2 Hiện thị  innerHTML
+
+*/
+let totalOrder = document.getElementById("total-order");
+function change() {
+  window.location.href = "cartOrder.html";
+}
+function resultOrder() {
+  let users = JSON.parse(localStorage.getItem("users"));
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].userName == currentUser) {
+      totalOrder.innerHTML = users[i].cart.length;
+      break;
+    }
+  }
+}
+//
