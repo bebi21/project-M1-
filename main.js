@@ -65,23 +65,27 @@ function logout() {
 ];
 localStorage.setItem("listItem", JSON.stringify(listItem)); */
 let arrListItem = JSON.parse(localStorage.getItem("listItem"));
-function render() {
+const VND = new Intl.NumberFormat("vi-VN", {
+  style: "currency",
+  currency: "VND",
+});
+function render(loc) {
   let text = "";
 
-  for (let i = 0; i < arrListItem.length; i++) {
+  for (let i = 0; i < loc.length; i++) {
     text += `
         <div>
-        <img src="${arrListItem[i].img}" alt="" />
-        <p>${arrListItem[i].name}</p>
-        <p>gia ${arrListItem[i].price}</p>
-        <button onclick="buy(${arrListItem[i].id})">mua</button>
+        <img src="${loc[i].img}" alt="" />
+        <p>${loc[i].name}</p>
+        <p>gia ${VND.format(loc[i].price)}</p>
+        <button onclick="buy(${loc[i].id})">mua</button>
       </div>
    
         `;
   }
   listOrder.innerHTML = text;
 }
-render();
+render(arrListItem);
 
 // function  mua hang
 /* 
@@ -175,3 +179,43 @@ function resultOrder() {
   }
 }
 //
+let flag1 = 1;
+let flag2 = 1;
+function descending() {
+  // clone lại arrListItem vào mảng mới tên là arr
+  let arr = [...arrListItem];
+  // .sort để sắp xếp theo  yêu cầu (chỗ này từ lớn xuống bé)
+  arr.sort((a, b) => {
+    return -a.price + b.price;
+  });
+  // tăng biến kiếm tra lên  1
+  flag1++;
+  // nếu bằng 2 thì ta render lại  theo  arr (ở dòng 186) và gán lại  giá trị bằng 0
+  if (flag1 == 2) {
+    flag1 = 0;
+    render(arr);
+  } else {
+    if (flag2 == 0 || flag2 == 1) {
+      render(arr);
+    } else {
+      render(arrListItem);
+    }
+  }
+}
+function ascending() {
+  let arr1 = [...arrListItem];
+  arr1.sort((a, b) => {
+    return a.price - b.price;
+  });
+  flag2++;
+  if (flag2 == 2) {
+    flag2 = 0;
+    render(arr1);
+  } else {
+    if (flag1 == 0 || flag1 == 1) {
+      render(arr1);
+    } else {
+      render(arrListItem);
+    }
+  }
+}

@@ -34,12 +34,32 @@
         border: 1px solid red;
         border-radius: 30%;
       }
+      .icon-soft {
+        font-size: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+        margin: 30px auto;
+      }
+      .icon-soft i {
+        text-decoration: none;
+        color: black;
+        width: 50px;
+        height: 100px;
+      }
     </style>
   </head>
   <body>
     <div class="cart">
       <div class="total-order" id="total-order"></div>
-      <i class="fa-solid fa-cart-shopping" onclick="change()"></i>
+      <i class="fa-solid fa-cart-shopping"></i>
+    </div>
+    <div class="icon-soft">
+      <i class="fa-solid fa-sort-up" onclick="ascending()"></i>
+      <i class="fa-solid fa-sort-down" onclick="descending()"></i>
     </div>
     <div id="listOrder"></div>
 
