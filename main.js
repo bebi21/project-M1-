@@ -190,12 +190,13 @@ function descending() {
   });
   // tăng biến kiếm tra lên  1
   flag1++;
+  flag2 = 1;
   // nếu bằng 2 thì ta render lại  theo  arr (ở dòng 186) và gán lại  giá trị bằng 0
   if (flag1 == 2) {
     flag1 = 0;
     render(arr);
   } else {
-    if (flag2 == 0 || flag2 == 1) {
+    if (flag2 == 0) {
       render(arr);
     } else {
       render(arrListItem);
@@ -208,11 +209,12 @@ function ascending() {
     return a.price - b.price;
   });
   flag2++;
+  flag1 = 1;
   if (flag2 == 2) {
     flag2 = 0;
     render(arr1);
   } else {
-    if (flag1 == 0 || flag1 == 1) {
+    if (flag1 == 0) {
       render(arr1);
     } else {
       render(arrListItem);
