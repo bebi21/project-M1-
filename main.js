@@ -5,65 +5,65 @@ function logout() {
   localStorage.removeItem("currentUser");
 }
 
-/* let listItem = [
+let listItem1 = [
   {
     id: 1,
-    name: "Trà Sữa Đậu Đỏ",
+    name: "Trà Sữa Đậu Đỏ1",
     price: 50000,
     img: "./img/tra sua/tra sua 4.png",
     stock: 50,
   },
   {
     id: 2,
-    name: "Trà Sữa Đậu Đỏ",
+    name: "Trà Sữa Đậu Đỏ2",
     price: 65000,
     img: "./img/tra sua/tra sua 3.png",
     stock: 21,
   },
   {
     id: 3,
-    name: "Trà Sữa Đậu Đỏ",
+    name: "Trà Sữa Đậu Đỏ3",
     price: 45000,
     img: "./img/tra sua/tra sua 6.png",
     stock: 31,
   },
   {
     id: 4,
-    name: "Trà Sữa Đậu Đỏ",
+    name: "Trà Sữa Đậu Đỏ4",
     price: 35000,
     img: "./img/tra sua/tra sua 5.png",
     stock: 41,
   },
   {
     id: 5,
-    name: "Trà Sữa Đậu Đỏ",
+    name: "Trà Sữa Đậu Đỏ53",
     price: 23000,
     img: "./img/tra sua/tra sua 3.png",
     stock: 11,
   },
   {
     id: 6,
-    name: "Trà Sữa Đậu Đỏ",
+    name: "Trà Sữa Đậu Đỏ61",
     price: 43000,
     img: "./img/tra sua/tra sua 6.png",
     stock: 21,
   },
   {
     id: 7,
-    name: "Trà Sữa Đậu Đỏ",
+    name: "Trà Sữa Đậu Đỏ66",
     price: 70000,
     img: "./img/tra sua/tra sua 4.png",
     stock: 18,
   },
   {
     id: 8,
-    name: "Trà Sữa Đậu Đỏ",
+    name: "Trà Sữa Đậu Đỏ55",
     price: 70000,
     img: "./img/tra sua/tra sua 4.png",
     stock: 28,
   },
 ];
-localStorage.setItem("listItem", JSON.stringify(listItem)); */
+localStorage.setItem("listItem", JSON.stringify(listItem1));
 let arrListItem = JSON.parse(localStorage.getItem("listItem"));
 const VND = new Intl.NumberFormat("vi-VN", {
   style: "currency",
@@ -179,45 +179,83 @@ function resultOrder() {
   }
 }
 //
-let flag1 = 1;
-let flag2 = 1;
+// let flag1 = 1;
+// let flag2 = 1;
+// function descending() {
+//   // clone lại arrListItem vào mảng mới tên là arr
+//   let arr = [...arrListItem];
+//   // .sort để sắp xếp theo  yêu cầu (chỗ này từ lớn xuống bé)
+//   arr.sort((a, b) => {
+//     return -a.price + b.price;
+//   });
+//   // tăng biến kiếm tra lên  1
+//   flag1++;
+//   flag2 = 1;
+//   // nếu bằng 2 thì ta render lại  theo  arr (ở dòng 186) và gán lại  giá trị bằng 0
+//   if (flag1 == 2) {
+//     flag1 = 0;
+//     render(arr);
+//   } else {
+//     if (flag2 == 0) {
+//       render(arr);
+//     } else {
+//       render(arrListItem);
+//     }
+//   }
+// }
+// function ascending() {
+//   let arr1 = [...arrListItem];
+//   arr1.sort((a, b) => {
+//     return a.price - b.price;
+//   });
+//   flag2++;
+//   flag1 = 1;
+//   if (flag2 == 2) {
+//     flag2 = 0;
+//     render(arr1);
+//   } else {
+//     if (flag1 == 0) {
+//       render(arr1);
+//     } else {
+//       render(arrListItem);
+//     }
+//   }
+//}
+
+//  cách của thầy An 
+let flag = "normal";
 function descending() {
-  // clone lại arrListItem vào mảng mới tên là arr
   let arr = [...arrListItem];
-  // .sort để sắp xếp theo  yêu cầu (chỗ này từ lớn xuống bé)
-  arr.sort((a, b) => {
-    return -a.price + b.price;
-  });
-  // tăng biến kiếm tra lên  1
-  flag1++;
-  flag2 = 1;
-  // nếu bằng 2 thì ta render lại  theo  arr (ở dòng 186) và gán lại  giá trị bằng 0
-  if (flag1 == 2) {
-    flag1 = 0;
+  if (flag == "normal" || flag == "ascen") {
+    arr.sort((a, b) => {
+      return b.price - a.price;
+    });
+    flag = "descen";
     render(arr);
   } else {
-    if (flag2 == 0) {
-      render(arr);
-    } else {
-      render(arrListItem);
-    }
+    render(arrListItem);
+    flag = "normal";
   }
 }
+
 function ascending() {
-  let arr1 = [...arrListItem];
-  arr1.sort((a, b) => {
-    return a.price - b.price;
-  });
-  flag2++;
-  flag1 = 1;
-  if (flag2 == 2) {
-    flag2 = 0;
-    render(arr1);
+  let arr = [...arrListItem];
+  if (flag == "normal" || flag == "descen") {
+    arr.sort((a, b) => {
+      return a.price - b.price;
+    });
+    flag = "ascen";
+    render(arr);
   } else {
-    if (flag1 == 0) {
-      render(arr1);
-    } else {
-      render(arrListItem);
-    }
+    render(arrListItem);
+    flag = "normal";
   }
+}
+function search() {
+  let searchValue = document.getElementById("searchItem").value;
+  let searchArr = arrListItem.filter((item) => {
+    return item.name.includes(searchValue);
+  });
+  console.log(searchValue);
+  render(searchArr);
 }
